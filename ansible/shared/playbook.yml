@@ -1,0 +1,44 @@
+---
+- name: Install and configure Nginx with Firewall Rule
+  hosts: target1
+  become: true
+  tasks:
+    - name: Install epel-release
+      package:
+        name: epel-release
+        state: present
+
+    - name: Install Nginx
+      yum:
+        name: nginx
+        state: present
+
+    - name: Start Nginx service
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Replace default index.html
+      copy:
+        src: /ansible_shared/index.html
+        dest: /usr/share/nginx/html/index.html
+
+    - name: Restart Nginx
+      service:
+        name: nginx
+        state: restarted
+
+    - name: Open port 80 in firewall
+      firewalld:
+        service: http
+        state: enabled
+        permanent: yes
+      notify:
+        - Reload firewalld
+
+  handlers:
+    - name: Reload firewalld
+      service:
+        name: firewalld
+        state: reloaded
