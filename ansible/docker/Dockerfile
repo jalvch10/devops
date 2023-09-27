@@ -2,8 +2,9 @@
 FROM python:3.9-slim
 
 # Install necessary packages
-RUN apt-get update && apt-get install -y \
-    sshpass \
+RUN apt-get update \
+    && apt-get install -y sshpass \
+    && apt-get install less \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Ansible

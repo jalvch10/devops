@@ -1,44 +1,54 @@
 ---
 - name: Install and configure Nginx with Firewall Rule
-  hosts: target1
   become: true
+  hosts: target1
+  tags: nginx-servers
+  gather_subset:
+    # - "!min"
+    - processor
+
   tasks:
-    - name: Install epel-release
-      package:
-        name: epel-release
-        state: present
+    - name: Get OS Distribution
+      debug:
+        var: ansible_facts
 
-    - name: Install Nginx
-      yum:
-        name: nginx
-        state: present
+  #   - name: Install epel-release
+  #     package:
+  #       name: epel-release
+  #       state: present
 
-    - name: Start Nginx service
-      service:
-        name: nginx
-        state: started
-        enabled: yes
+  #   - name: Install Nginx
+  #     when: ansible_distribution == 'CentOS'
+  #     yum:
+  #       name: nginx
+  #       state: present
 
-    - name: Replace default index.html
-      copy:
-        src: /ansible_shared/index.html
-        dest: /usr/share/nginx/html/index.html
+  #   - name: Start Nginx service
+  #     service:
+  #       name: nginx
+  #       state: started
+  #       enabled: true
 
-    - name: Restart Nginx
-      service:
-        name: nginx
-        state: restarted
+  #   - name: Replace default index.html
+  #     copy:
+  #       src: /ansible_shared/index.html
+  #       dest: /usr/share/nginx/html/index.html
 
-    - name: Open port 80 in firewall
-      firewalld:
-        service: http
-        state: enabled
-        permanent: yes
-      notify:
-        - Reload firewalld
+  #   - name: Restart Nginx
+  #     service:
+  #       name: nginx
+  #       state: restarted
 
-  handlers:
-    - name: Reload firewalld
-      service:
-        name: firewalld
-        state: reloaded
+  #   - name: Open port 80 in firewall
+  #     firewalld:
+  #       service: http
+  #       state: enabled
+  #       permanent: true
+  #     notify:
+  #       - Reload firewalld
+
+  # handlers:
+  #   - name: Reload firewalld
+  #     service:
+  #       name: firewalld
+  #       state: reloaded
