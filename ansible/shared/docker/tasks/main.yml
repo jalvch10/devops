@@ -1,0 +1,39 @@
+---
+# tasks file for docker
+
+- name: Install dependencies
+  yum:
+    name: "{{ item}}"
+    state: present
+  with_items:
+    - yum-utils
+    - python-pip
+
+- name: Install pip dependencies
+  pip:
+    name: requests
+    state: present
+
+- name: Add Docker CE repo
+  command: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+- name: Install Docker CE
+  yum:
+    name: docker-ce
+    state: present
+
+- name: Start Docker
+  service:
+    name: docker
+    state: started
+    enabled: true
+
+- name: Create and start the container
+  community.docker.docker_container:
+    name: "c{{ item }}"
+    state: started #started / absent
+    force_kill: false #default false
+    image: ubuntu:14.04
+    interactive: true
+    tty: true
+  loop: "{{ range(1,4) }}"

@@ -1,0 +1,7 @@
+---
+- name: Update OS and Install epel-release
+  gather_facts: false
+  hosts: all
+  become: true
+  roles:
+    - ospatch
