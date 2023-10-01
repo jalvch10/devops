@@ -1,0 +1,10 @@
+{
+	"image": "ansible-controller:latest",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"redhat.ansible"
+			]
+		}
+	}
+}

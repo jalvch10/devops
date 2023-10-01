@@ -1,39 +1,42 @@
 ---
-# tasks file for docker
-
+# This task adds installs docker ce and create 3 containers with ubuntu 14.04
 - name: Install dependencies
-  yum:
-    name: "{{ item}}"
+  ansible.builtin.yum:
+    name: '{{ item }}'
     state: present
   with_items:
     - yum-utils
     - python-pip
 
 - name: Install pip dependencies
-  pip:
+  ansible.builtin.pip:
     name: requests
     state: present
 
 - name: Add Docker CE repo
-  command: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+  ansible.builtin.repo:
+    name: docker-ce
+    description: Docker CE Repository
+    baseurl: https://download.docker.com/linux/centos/docker-ce.repo
+    state: present
 
 - name: Install Docker CE
-  yum:
+  ansible.builtin.yum:
     name: docker-ce
     state: present
 
 - name: Start Docker
-  service:
+  ansible.builtin.service:
     name: docker
     state: started
     enabled: true
 
 - name: Create and start the container
   community.docker.docker_container:
-    name: "c{{ item }}"
-    state: started #started / absent
-    force_kill: false #default false
+    name: 'c {{ item }}'
+    state: started # started / absent
+    force_kill: false # default false
     image: ubuntu:14.04
     interactive: true
     tty: true
-  loop: "{{ range(1,4) }}"
+  loop: '{{ range(1, 4) }}'
