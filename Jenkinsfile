@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('hello') {
             steps {
-                sh 'echo Wudehj bgare connectedo to 2Github 🙌🙌🙌🙌🙌!'
+                sh 'echo Wudehju bgare connectedo to 2Github 🙌🙌🙌🙌🙌!'
             }
         }
     }
