@@ -1,7 +1,0 @@
----
-# handlers file for webserver
-
-- name: Reload firewalld
-  service:
-    name: firewalld
-    state: reloaded

@@ -1,6 +1,0 @@
----
-- name: Install Docker CE
-  hosts: all
-  become: true
-  roles:
-    - docker
