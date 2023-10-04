@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('hello') {
             steps {
-                sh 'echo We are connected to Github 🙌!'
+                sh 'echo We are connected to Github 🙌🙌🙌🙌🙌!'
             }
         }
     }
