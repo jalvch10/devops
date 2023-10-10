@@ -11,7 +11,7 @@ pipeline {
 
     stage('Checkout Source') {
       steps {
-        git credentials: 'githubtoken', url: 'https://github.com/jalvch10/devops.git', branch: 'main'
+        git credentialsId: 'githubtoken', url: 'https://github.com/jalvch10/devops.git', branch: 'main'
       }
     }
 
